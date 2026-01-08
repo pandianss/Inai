@@ -1,0 +1,520 @@
+openapi: 3.0.0
+info:
+  title: Bharat Messenger API
+  version: 1.0.0
+  description: |
+    High-concurrency, privacy-first messaging platform API for the 2026 Indian ecosystem.
+    
+    **Key Features:**
+    - E2E Encrypted Messaging with Sealed Sender Protocol
+    - Real-time Presence System
+    - AI-powered Multilingual Translation
+    - ONDC Commerce Integration
+    - UPI Payment Gateway
+
+servers:
+  - url: https://api.bharatmessenger.in/v1
+    description: Production Server
+  - url: https://staging-api.bharatmessenger.in/v1
+    description: Staging Server
+  - url: http://localhost:8080/v1
+    description: Local Development
+
+tags:
+  - name: Messaging
+    description: Real-time messaging endpoints
+  - name: Presence
+    description: User presence and status
+  - name: Payments
+    description: UPI payment integration
+  - name: Commerce
+    description: ONDC network integration
+  - name: Translation
+    description: AI-powered language translation
+
+paths:
+  /messages:
+    post:
+      tags:
+        - Messaging
+      summary: Send an E2E encrypted message
+      description: |
+        Sends an end-to-end encrypted message via MQTT Gateway.
+        Uses Sealed Sender Protocol to mask sender identity from server.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - recipient_id
+                - payload_encrypted
+              properties:
+                recipient_id:
+                  type: string
+                  description: Unique identifier of the recipient
+                  example: "user_abc123"
+                payload_encrypted:
+                  type: string
+                  format: byte
+                  description: Base64-encoded encrypted message payload
+                ephemeral_ttl:
+                  type: integer
+                  description: Time-to-live for self-destructing messages (in seconds)
+                  example: 3600
+                  minimum: 0
+                message_type:
+                  type: string
+                  enum: [text, image, video, audio, document]
+                  default: text
+      responses:
+        '202':
+          description: Accepted for delivery via MQTT Gateway
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message_id:
+                    type: string
+                    example: "msg_xyz789"
+                  status:
+                    type: string
+                    example: "queued"
+                  timestamp:
+                    type: string
+                    format: date-time
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limit exceeded
+
+  /messages/{message_id}:
+    get:
+      tags:
+        - Messaging
+      summary: Get message delivery status
+      parameters:
+        - name: message_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Message status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message_id:
+                    type: string
+                  status:
+                    type: string
+                    enum: [queued, sent, delivered, read, failed]
+                  delivered_at:
+                    type: string
+                    format: date-time
+                  read_at:
+                    type: string
+                    format: date-time
+
+  /presence/{user_id}:
+    get:
+      tags:
+        - Presence
+      summary: Get real-time user status
+      description: |
+        Retrieves current presence status from Redis cache.
+        Status is updated in real-time via WebSocket connections.
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User identifier
+      responses:
+        '200':
+          description: User presence information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                  status:
+                    type: string
+                    enum: [online, offline, away, busy, in_mandi]
+                    description: Custom status including "In Mandi" for market visits
+                  last_seen:
+                    type: string
+                    format: date-time
+                  device_type:
+                    type: string
+                    enum: [mobile, web, lite]
+
+    put:
+      tags:
+        - Presence
+      summary: Update user presence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [online, offline, away, busy, in_mandi]
+                custom_message:
+                  type: string
+                  maxLength: 100
+      responses:
+        '200':
+          description: Presence updated successfully
+
+  /payments/upi/request:
+    post:
+      tags:
+        - Payments
+      summary: Generate in-chat UPI payment bubble
+      description: |
+        Triggers NPCI-compliant UPI Intent flow.
+        Creates a payment request that appears as a bubble in the chat.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - vpa_merchant
+              properties:
+                amount:
+                  type: number
+                  format: float
+                  description: Payment amount in INR
+                  example: 150.50
+                  minimum: 1
+                  maximum: 100000
+                vpa_merchant:
+                  type: string
+                  description: Merchant's UPI VPA
+                  example: "merchant@upi"
+                  pattern: '^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+$'
+                transaction_note:
+                  type: string
+                  description: Transaction description
+                  maxLength: 200
+                  example: "Payment for groceries"
+                chat_id:
+                  type: string
+                  description: Chat thread ID where payment bubble should appear
+      responses:
+        '201':
+          description: Payment request created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payment_id:
+                    type: string
+                  intent_url:
+                    type: string
+                    description: UPI Intent URL for mobile apps
+                  qr_code:
+                    type: string
+                    description: Base64-encoded QR code for web
+                  expires_at:
+                    type: string
+                    format: date-time
+
+  /payments/upi/status/{payment_id}:
+    get:
+      tags:
+        - Payments
+      summary: Check payment status
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payment_id:
+                    type: string
+                  status:
+                    type: string
+                    enum: [pending, success, failed, expired]
+                  amount:
+                    type: number
+                  transaction_id:
+                    type: string
+                  completed_at:
+                    type: string
+                    format: date-time
+
+  /commerce/ondc/search:
+    get:
+      tags:
+        - Commerce
+      summary: Search for local sellers on ONDC network
+      description: |
+        Implements Beckn Protocol search API.
+        Returns nearby merchants and services based on location and category.
+      parameters:
+        - name: location_lat_long
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated latitude,longitude
+          example: "28.6139,77.2090"
+        - name: category
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Grocery, Logistics, F&B, Healthcare, Services]
+          description: Product/Service category
+        - name: radius
+          in: query
+          schema:
+            type: integer
+            default: 5
+          description: Search radius in kilometers
+        - name: query
+          in: query
+          schema:
+            type: string
+          description: Free-text search query
+      responses:
+        '200':
+          description: List of matching merchants
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  merchants:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        merchant_id:
+                          type: string
+                        name:
+                          type: string
+                        category:
+                          type: string
+                        distance:
+                          type: number
+                          description: Distance in kilometers
+                        rating:
+                          type: number
+                          format: float
+                        verified:
+                          type: boolean
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              item_id:
+                                type: string
+                              name:
+                                type: string
+                              price:
+                                type: number
+                              unit:
+                                type: string
+                              available:
+                                type: boolean
+
+  /commerce/ondc/order:
+    post:
+      tags:
+        - Commerce
+      summary: Place an order via ONDC
+      description: Implements Beckn Protocol select and confirm flow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - merchant_id
+                - items
+                - delivery_address
+              properties:
+                merchant_id:
+                  type: string
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      item_id:
+                        type: string
+                      quantity:
+                        type: integer
+                delivery_address:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                    city:
+                      type: string
+                    pincode:
+                      type: string
+                    phone:
+                      type: string
+      responses:
+        '201':
+          description: Order placed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                  total_amount:
+                    type: number
+                  payment_url:
+                    type: string
+                  estimated_delivery:
+                    type: string
+                    format: date-time
+
+  /translation/speech-to-speech:
+    post:
+      tags:
+        - Translation
+      summary: Translate speech from one language to another
+      description: |
+        AI-powered Speech-to-Speech pipeline:
+        1. ASR (Bhashini/Whisper) - Speech to Text
+        2. LLM Translation (Llama-3-8B/OpenHathi)
+        3. TTS - Text to Speech
+        
+        Target latency: <1.2 seconds end-to-end
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - audio
+                - source_language
+                - target_language
+              properties:
+                audio:
+                  type: string
+                  format: binary
+                  description: Audio file (WAV, MP3, OGG)
+                source_language:
+                  type: string
+                  enum: [hi, ta, te, bn, mr, gu, kn, ml, pa, en]
+                target_language:
+                  type: string
+                  enum: [hi, ta, te, bn, mr, gu, kn, ml, pa, en]
+                include_transcript:
+                  type: boolean
+                  default: false
+      responses:
+        '200':
+          description: Translated audio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  audio_url:
+                    type: string
+                    description: URL to translated audio file
+                  source_transcript:
+                    type: string
+                    description: Original text (if requested)
+                  translated_text:
+                    type: string
+                    description: Translated text
+                  latency_ms:
+                    type: integer
+                    description: Processing time in milliseconds
+
+  /auth/digilocker/verify:
+    post:
+      tags:
+        - Authentication
+      summary: Verify identity via DigiLocker
+      description: |
+        Integration with DigiLocker/Aadhaar for optional "Verified" badges.
+        Does NOT store Aadhaar number on servers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                digilocker_token:
+                  type: string
+                consent:
+                  type: boolean
+      responses:
+        '200':
+          description: Verification successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verified:
+                    type: boolean
+                  badge_issued:
+                    type: boolean
+                  name:
+                    type: string
+                  dob:
+                    type: string
+                    format: date
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+
+security:
+  - BearerAuth: []

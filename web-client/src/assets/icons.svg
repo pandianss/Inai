@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <!-- Home Icon: Tulsi/Courtyard -->
+  <symbol id="icon-home" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 3L4 9v12h5v-7h6v7h5V9l-8-6zm0 2.5L18 10v9h-3v-7H9v7H6v-9l6-4.5z"/>
+    <circle cx="12" cy="8" r="1.5" fill="currentColor" opacity="0.6"/>
+  </symbol>
+
+  <!-- Payments/Wallet: Matka (Pot) -->
+  <symbol id="icon-wallet" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 2c-1.5 0-2.5 0.5-3 1.5L7 7H5c-1.1 0-2 0.9-2 2v11c0 1.1 0.9 2 2 2h14c1.1 0 2-0.9 2-2V9c0-1.1-0.9-2-2-2h-2l-2-3.5C14.5 2.5 13.5 2 12 2zm0 2c0.5 0 1 0.2 1.3 0.7L15 8H9l1.7-3.3C11 4.2 11.5 4 12 4zM5 9h14v11H5V9zm10 3c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2z"/>
+    <circle cx="12" cy="11" r="1" fill="currentColor" opacity="0.4"/>
+  </symbol>
+
+  <!-- Verified Badge: Seal/Stamp -->
+  <symbol id="icon-verified" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/>
+    <path fill="currentColor" opacity="0.8" d="M12 6l1.5 3.5L17 10l-2.5 2.5L15 16l-3-2-3 2 0.5-3.5L7 10l3.5-0.5L12 6z"/>
+  </symbol>
+
+  <!-- Voice Message: Loudspeaker -->
+  <symbol id="icon-voice" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+  </symbol>
+
+  <!-- Send Message: Arrow -->
+  <symbol id="icon-send" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+  </symbol>
+
+  <!-- Phone Call -->
+  <symbol id="icon-phone" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+  </symbol>
+
+  <!-- Video Call -->
+  <symbol id="icon-video" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+  </symbol>
+
+  <!-- Attach File -->
+  <symbol id="icon-attach" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/>
+  </symbol>
+
+  <!-- More Options -->
+  <symbol id="icon-more" viewBox="0 0 24 24">
+    <circle cx="12" cy="5" r="2" fill="currentColor"/>
+    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    <circle cx="12" cy="19" r="2" fill="currentColor"/>
+  </symbol>
+
+  <!-- Commerce/Shopping: Basket -->
+  <symbol id="icon-commerce" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+  </symbol>
+
+  <!-- UPI Payment -->
+  <symbol id="icon-upi" viewBox="0 0 24 24">
+    <rect x="2" y="5" width="20" height="14" rx="2" fill="currentColor" opacity="0.2"/>
+    <path fill="currentColor" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+    <text x="12" y="15" text-anchor="middle" font-size="6" font-weight="bold" fill="currentColor">₹</text>
+  </symbol>
+
+  <!-- Language/Translation -->
+  <symbol id="icon-translate" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+  </symbol>
+
+  <!-- Microphone -->
+  <symbol id="icon-mic" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+  </symbol>
+
+  <!-- Location/Map -->
+  <symbol id="icon-location" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+  </symbol>
+
+  <!-- Notification Bell -->
+  <symbol id="icon-notification" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+  </symbol>
+
+  <!-- Settings Gear -->
+  <symbol id="icon-settings" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+  </symbol>
+</svg>
